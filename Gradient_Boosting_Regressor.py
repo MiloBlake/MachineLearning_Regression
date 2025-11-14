@@ -28,7 +28,6 @@ def evaluate_model(model, X_test, y_test):
 # Set up K-Fold Cross Validation
 kf = KFold(n_splits=10, shuffle=True, random_state=42)
 
-
 # Default Gradient Boosting Regressor
 gbr_default = GradientBoostingRegressor(random_state=42)
 
@@ -38,6 +37,10 @@ print(f"Cross-validation mean R²: {np.mean(gbr_default_scores):.4f}")
 
 # Train on full training set
 gbr_default.fit(X_train, y_train)
+
+# Print default hyperparameters
+print("Default Gradient Boosting hyperparameters:")
+print(gbr_default.get_params())
 
 # Evaluate on test set
 gbr_default_mae, gbr_default_mse, gbr_default_r2 = evaluate_model(gbr_default, X_test, y_test)

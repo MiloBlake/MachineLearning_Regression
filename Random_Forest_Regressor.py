@@ -38,6 +38,9 @@ print(f"Cross-validation mean R²: {np.mean(rf_default_scores):.4f}")
 # Train on full training set
 rf_default.fit(X_train, y_train)
 
+print("Default Random Forest hyperparameters:")
+print(rf_default.get_params())
+
 # Evaluate on test set
 rf_default_mae, rf_default_mse, rf_default_r2 = evaluate_model(rf_default, X_test, y_test)
 print(f"\nTest Set Results (Default Model):")
@@ -70,10 +73,10 @@ print("\nRandom Forest (Tuned) Results:")
 print(f"MAE: {rf_mae:.2f}, MSE: {rf_mse:.2f}, R²: {rf_r2:.2f}")
 
 results = pd.DataFrame({
-    "Model": ["Random Forest"],
-    "MAE": [rf_mae],
-    "MSE": [rf_mse],
-    "R²": [rf_r2]
+    "Model": ["Default", "Tuned"],
+    "MAE": [rf_default_mae, rf_mae],
+    "MSE": [rf_default_mse, rf_mse],
+    "R²": [rf_default_r2, rf_r2]
 })
 print("\nFinal Test Results:\n", results)
 
@@ -96,6 +99,7 @@ plt.ylabel("Predicted Tensile Strength")
 plt.title(f"Default Model (R²={rf_default_r2:.3f})")
 
 # Tuned model
+plt.subplot(1, 2, 2)
 plt.scatter(y_test, y_pred_tuned, color='forestgreen', alpha=0.7)
 plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'r--', lw=2)
 plt.xlabel("Actual Tensile Strength")
